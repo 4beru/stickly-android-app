@@ -1,8 +1,6 @@
 package com.skyd.rays.model.respository
 
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.os.Build
 import com.skyd.rays.R
 import com.skyd.rays.appContext
 import com.skyd.rays.base.BaseData
@@ -12,6 +10,7 @@ import com.skyd.rays.model.bean.IUriStringShareData
 import com.skyd.rays.model.bean.UriStringShareDataBean
 import com.skyd.rays.model.bean.UriStringSharePackageBean
 import com.skyd.rays.model.db.dao.UriStringSharePackageDao
+import com.skyd.rays.util.CommonUtil.getAppInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -76,19 +75,6 @@ class UriStringShareRepository @Inject constructor(
                 code = 0
                 this.data = data
             })
-        }
-    }
-
-    private fun getAppInfo(pm: PackageManager, packageName: String): PackageInfo {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            pm.getPackageInfo(
-                packageName,
-                PackageManager.PackageInfoFlags
-                    .of(PackageManager.MATCH_UNINSTALLED_PACKAGES.toLong())
-            )
-        } else {
-            @Suppress("DEPRECATION")
-            pm.getPackageInfo(packageName, PackageManager.MATCH_UNINSTALLED_PACKAGES)
         }
     }
 }

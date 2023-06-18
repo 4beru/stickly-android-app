@@ -1,8 +1,6 @@
 package com.skyd.rays.ui.screen.settings.shareconfig.uristringshare
 
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
@@ -28,14 +26,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import com.skyd.rays.R
 import com.skyd.rays.model.bean.UriStringSharePackageBean
 import com.skyd.rays.model.preference.share.UriStringSharePreference
-import com.skyd.rays.ui.component.LocalBackgroundRoundedShape
+import com.skyd.rays.ui.component.BannerItem
 import com.skyd.rays.ui.component.LocalUseColorfulIcon
 import com.skyd.rays.ui.component.RaysIconButton
 import com.skyd.rays.ui.component.RaysTopBar
@@ -104,11 +101,11 @@ fun UriStringShareScreen(viewModel: UriStringShareViewModel = hiltViewModel()) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection), contentPadding = paddingValues
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
+            contentPadding = paddingValues,
         ) {
             item {
-                Spacer(modifier = Modifier.height(16.dp))
-                CompositionLocalProvider(LocalBackgroundRoundedShape provides true) {
+                BannerItem {
                     SwitchSettingsItem(
                         icon = Icons.Default.Link,
                         text = stringResource(id = R.string.uri_string_share_screen_enable),
@@ -122,7 +119,6 @@ fun UriStringShareScreen(viewModel: UriStringShareViewModel = hiltViewModel()) {
                         }
                     )
                 }
-                Spacer(modifier = Modifier.height(16.dp))
             }
             val uriStringShareResultUiState = uiState.uriStringShareResultUiState
             if (uriStringShareResultUiState is UriStringShareResultUiState.Success) {
