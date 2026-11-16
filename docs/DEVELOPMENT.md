@@ -122,4 +122,12 @@ La primera ejecución agotó el límite de 10 minutos de la herramienta durante 
 
 Persisten advertencias no bloqueantes de APIs obsoletas, del opt-in de Coil, del namespace de LiteRT y de bibliotecas nativas empaquetadas sin eliminar símbolos. `sdkmanager 13.0` también avisa sobre metadatos SDK XML más recientes. El input fijado al tag Devenv `v2.2.2` declara internamente `2.2.1`, lo que produce un aviso de versión, sin impedir las pruebas. No se añadieron toolchains nativos únicamente para silenciar advertencias.
 
+### Comprobaciones adicionales de integración
+
+- Se copió únicamente `devenv.nix`, `devenv.yaml`, `devenv.lock` y `gradlew` a un directorio temporal independiente. `devenv test` pasó sin `secret.gradle.kts` ni fuentes de la aplicación y no creó `local.properties`, secretos ni un directorio `app`. Esto verifica que activar y comprobar el entorno no depende de credenciales ni inicia la compilación.
+- Se repitió `:app:assembleGitHubDebug :app:testGitHubDebugUnitTest` con `--offline --no-daemon --max-workers=2`: `BUILD SUCCESSFUL` en 1 minuto y 5 segundos. Este resultado verifica la reutilización de las dependencias ya descargadas, no una descarga desde cero sin red.
+- `:app:installGitHubDebug --dry-run --offline` resolvió correctamente su grafo de tareas. La instalación apareció como `SKIPPED`, sin contactar ni modificar un dispositivo. No sustituye una instalación real.
+- Se verificó la firma de los cinco APK con `apksigner verify`. Los metadatos y bibliotecas nativas coinciden con cada ABI; el universal contiene `arm64-v8a`, `armeabi-v7a`, `x86` y `x86_64`. Todos declaran `com.skyd.rays.debug`, mínimo 24 y objetivo 35. Ningún APK contiene los archivos `secret.gradle.kts`, `key.jks` o `local.properties`.
+- El contenido del archivo local de secretos permaneció intacto después de compilar y resolver la instalación. No se creó `local.properties` en el proyecto.
+
 Los esquemas exportados automáticamente por Room en `app/schemas/` se mantienen locales y están excluidos de Git, al igual que las cachés y los APK. Queda pendiente la comprobación funcional en Android, especialmente las funciones de IA que requieren modelos ausentes.
