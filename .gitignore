@@ -1,0 +1,20 @@
+# Local Android configuration and signing credentials
+/local.properties
+/secret.gradle.kts
+*.jks
+*.keystore
+
+# Build output and IDE state
+.gradle/
+.kotlin/
+build/
+# Room exports this directory during compilation in this checkout.
+/app/schemas/
+.idea/
+*.iml
+
+# Local Nix / Devenv state (keep devenv.lock versioned)
+.devenv*
+.direnv/
+devenv.local.nix
+devenv.local.yaml

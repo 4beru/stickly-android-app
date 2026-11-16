@@ -40,6 +40,8 @@
     </p>
 </div>
 
+[Guía de desarrollo local (español)](docs/DEVELOPMENT.md)
+
 ## 💡 Features
 
 1. Support **tagging** for stickers
